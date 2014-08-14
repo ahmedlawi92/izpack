@@ -58,6 +58,11 @@ public class AbstractFileField extends Field
     protected final boolean mustExist;
 
     /**
+     *  Determines if the install path should be substituted back into the entered path
+     */
+    private final boolean replacePath;
+
+    /**
      * Constructs an {@code AbstractFileField}.
      *
      * @param config      the configuration to get field information from
@@ -71,6 +76,7 @@ public class AbstractFileField extends Field
         fileExtensionDescription = config.getFileExtensionDescription();
         allowEmptyValue = config.getAllowEmptyValue();
         mustExist = config.mustExist();
+        replacePath = config.getReplacePath();
     }
 
     /**
@@ -111,6 +117,16 @@ public class AbstractFileField extends Field
     public boolean isMustExist()
     {
         return mustExist;
+    }
+
+    /**
+     * Determines if install path should be substituted back into the path before writing to auto-install.xml.
+     *
+     * @return {@code true} if variable should be substituted back into the path
+     */
+    public boolean getReplacePath()
+    {
+        return replacePath;
     }
 
 
