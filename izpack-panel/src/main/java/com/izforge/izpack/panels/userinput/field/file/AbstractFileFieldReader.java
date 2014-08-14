@@ -86,4 +86,14 @@ public abstract class AbstractFileFieldReader extends FieldReader implements Fil
     {
         return getConfig().getBoolean(getSpec(), "mustExist", true);
     }
+
+    /**
+     * Determine if the install path variable should be substituted back into the path.
+     *
+     * @return {@code true} if the install path variable should be substituted into the path
+     */
+    public boolean getReplacePath()
+    {
+        return getConfig().getBoolean(getSpec(), "replacePath", true);
+    }
 }

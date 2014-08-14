@@ -58,4 +58,11 @@ public interface FileFieldConfig extends FieldConfig
      * @return  @return {@code true} if file must exist
      */
     boolean mustExist();
+
+    /**
+     * Determines if install path should be resubstituted into path before writing to auto-install.xml.
+     *
+     * @return {@code true} if variable should be resubsituted
+     */
+    boolean getReplacePath();
 }

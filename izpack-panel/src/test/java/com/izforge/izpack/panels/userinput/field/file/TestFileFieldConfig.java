@@ -86,6 +86,11 @@ public class TestFileFieldConfig extends TestFieldConfig implements FileFieldCon
         return true;
     }
 
+    @Override
+    public boolean getReplacePath() {
+        return false;
+    }
+
     /**
      * Determines if empty input values are allowed.
      *
