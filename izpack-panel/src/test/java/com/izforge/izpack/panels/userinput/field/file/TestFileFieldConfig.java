@@ -86,8 +86,9 @@ public class TestFileFieldConfig extends TestFieldConfig implements FileFieldCon
         return true;
     }
 
+    //TODO Find out whats happening here
     @Override
-    public boolean getReplacePath() {
+    public boolean getRelativePath() {
         return false;
     }
 

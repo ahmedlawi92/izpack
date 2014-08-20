@@ -32,6 +32,7 @@ import com.izforge.izpack.installer.data.GUIInstallData;
 import com.izforge.izpack.installer.gui.InstallerFrame;
 import com.izforge.izpack.installer.gui.IzPanel;
 import com.izforge.izpack.panels.userinput.field.*;
+import com.izforge.izpack.panels.userinput.field.file.AbstractFileField;
 import com.izforge.izpack.panels.userinput.gui.Component;
 import com.izforge.izpack.panels.userinput.gui.GUIField;
 import com.izforge.izpack.panels.userinput.gui.GUIFieldFactory;

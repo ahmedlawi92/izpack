@@ -92,8 +92,8 @@ public abstract class AbstractFileFieldReader extends FieldReader implements Fil
      *
      * @return {@code true} if the install path variable should be substituted into the path
      */
-    public boolean getReplacePath()
+    public boolean getRelativePath()
     {
-        return getConfig().getBoolean(getSpec(), "replacePath", true);
+        return getConfig().getBoolean(getSpec(), "relativePath", false);
     }
 }

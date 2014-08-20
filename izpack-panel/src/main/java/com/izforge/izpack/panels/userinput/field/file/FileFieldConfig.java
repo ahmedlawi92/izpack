@@ -64,5 +64,5 @@ public interface FileFieldConfig extends FieldConfig
      *
      * @return {@code true} if variable should be substituted back
      */
-    boolean getReplacePath();
+    boolean getRelativePath();
 }

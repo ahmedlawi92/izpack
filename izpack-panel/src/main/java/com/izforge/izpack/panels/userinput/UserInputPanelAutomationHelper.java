@@ -31,12 +31,10 @@ import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.exception.InstallerException;
 import com.izforge.izpack.installer.automation.PanelAutomation;
-import com.izforge.izpack.panels.userinput.console.custom.ConsoleCustomField;
 import com.izforge.izpack.panels.userinput.field.AbstractFieldView;
 import com.izforge.izpack.panels.userinput.field.FieldView;
-import com.izforge.izpack.panels.userinput.field.custom.CustomField;
 import com.izforge.izpack.panels.userinput.field.custom.CustomFieldType;
-import com.izforge.izpack.panels.userinput.gui.custom.GUICustomField;
+import com.izforge.izpack.panels.userinput.field.file.AbstractFileField;
 
 /**
  * Functions to support automated usage of the UserInputPanel
@@ -111,6 +109,7 @@ public class UserInputPanelAutomationHelper implements PanelAutomation
                                                 Set<String> variables, List<? extends AbstractFieldView> views)
     {
         Map<String, String> entries = new HashMap<String, String>();
+        String installPath = installData.getInstallPath();
 
         for (String variable : variables)
         {
@@ -122,7 +121,14 @@ public class UserInputPanelAutomationHelper implements PanelAutomation
 
             if (variable != null)
             {
-                entries.put(variable, installData.getVariable(variable));
+                String entry = installData.getVariable(variable);
+                if (view.getField() instanceof AbstractFileField)
+                {
+                    if (((AbstractFileField) view.getField()).getRelativePath()) {
+                        entry = entry.replace(installPath, "${INSTALL_PATH}");
+                    }
+                }
+                entries.put(variable, entry);
             }
 
             // Grab all the variables contained within the custom field
