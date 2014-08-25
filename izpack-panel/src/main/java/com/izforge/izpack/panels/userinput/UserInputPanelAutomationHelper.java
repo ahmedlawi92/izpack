@@ -174,7 +174,7 @@ public class UserInputPanelAutomationHelper extends PanelAutomationHelper implem
             // Substitute variable used in the 'value' field
             value = dataElement.getAttribute(AUTO_ATTRIBUTE_VALUE);
 
-            if (value == null) {
+            if (value == null && idata.getVariable(variable).equals("")) {
                 value = requestInput(String.format(msg, variable));
             }
             value = variables.replace(value);
