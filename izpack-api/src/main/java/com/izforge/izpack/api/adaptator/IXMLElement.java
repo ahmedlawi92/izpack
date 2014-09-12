@@ -27,6 +27,7 @@ import org.w3c.dom.Node;
 import java.io.Serializable;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -111,6 +112,15 @@ public interface IXMLElement extends Serializable
      * @return the non-null list of child elements.
      */
     List<IXMLElement> getChildrenNamed(String name);
+
+    /**
+     * Returns a list of all child elements named <I>name</I>,
+     * with attributes <I>key=value</I>
+     *
+     * @param name the name of the children to search for.
+     * @return the non-null list of child elements.
+     */
+    List<IXMLElement> getChildrenNamedWithAttribute(String name, Map<String, String> attributes);
 
     /**
      * Returns the value of an attribute.

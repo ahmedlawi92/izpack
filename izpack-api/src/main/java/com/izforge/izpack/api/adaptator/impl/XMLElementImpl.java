@@ -28,10 +28,7 @@ import org.w3c.dom.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 import java.util.regex.Pattern;
 
 /**
@@ -219,6 +216,24 @@ public class XMLElementImpl implements IXMLElement
             if (child.getName() != null && child.getName().equals(name))
             {
                 res.add(new XMLElementImpl(child.getElement()));
+            }
+        }
+        return res;
+    }
+
+    public List<IXMLElement> getChildrenNamedWithAttribute(String name, Map<String, String> attributes){
+
+        List<IXMLElement> res = new ArrayList<IXMLElement>();
+        for (IXMLElement child : getChildrenNamed(name)){
+            boolean add = true;
+            for (String attribute : attributes.keySet()){
+                if (!(child.hasAttribute(attribute) && child.getAttribute(attribute).equals(attributes.get(attribute)))){
+                    add = false;
+                    break;
+                }
+            if (add == true){
+                res.add(child);
+            }
             }
         }
         return res;
