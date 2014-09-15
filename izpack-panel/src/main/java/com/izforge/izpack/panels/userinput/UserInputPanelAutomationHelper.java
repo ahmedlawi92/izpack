@@ -167,15 +167,26 @@ public class UserInputPanelAutomationHelper extends PanelAutomationHelper implem
     {
         String variable;
         String value;
+        String[] values;
         String msg = idata.getMessages().get(AUTO_PROMPT_KEY);
-
+        String msgVerify = idata.getMessages().get(AUTO_PROMPT_KEY_VERIFY);
+        String panelId = panelRoot.getAttribute("id");
         List<IXMLElement> userEntries = panelRoot.getChildrenNamed(AUTO_KEY_ENTRY);
-
+        DefaultObjectFactory factory = new DefaultObjectFactory(new DefaultContainer());
         // ----------------------------------------------------
         // retieve each entry and substitute the associated
         // variable
         // ----------------------------------------------------
         Variables variables = idata.getVariables();
+        SpecHelper specHelper = new SpecHelper(new ResourceManager());
+
+        try {
+            specHelper.readSpec(specHelper.getResource(RESOURCE));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Map<String, String> attrs = new HashMap<String, String>();
         for (IXMLElement dataElement : userEntries)
         {
             variable = dataElement.getAttribute(AUTO_ATTRIBUTE_KEY);
@@ -183,9 +194,52 @@ public class UserInputPanelAutomationHelper extends PanelAutomationHelper implem
             // Substitute variable used in the 'value' field
             value = dataElement.getAttribute(AUTO_ATTRIBUTE_VALUE);
 
-            if (value == null && idata.getVariable(variable).equals("")) {
-                value = requestInput(String.format(msg, variable));
+            if (value == null) {
+                Boolean validated = false;
+                while (!validated) {
+                    attrs.put("id", panelId);
+                    List<IXMLElement> panels = specHelper.getSpec().getChildrenNamedWithAttribute("panel", attrs);
+                    attrs.clear();
+                    attrs.put("variable", dataElement.getAttribute("key"));
+                    IXMLElement field = panels.get(0).getChildrenNamedWithAttribute("field", attrs).get(0);
+
+                    ValuesProcessingClient client;
+                    if(field.hasAttribute("type") && field.getAttribute("type").equals("password")){
+                        values = new String[2];
+                        values[0] = requestInput(String.format(msg, variable));
+                        values[1] = requestInput(String.format(msgVerify, variable));
+                        client = new PasswordGroup(values);
+                        
+                    }else {
+                        values = new String[1];
+                        values[0] = requestInput(String.format(msg, variable));
+                        client = new ValuesProcessingClient(values);
+                    }
+
+                    List<IXMLElement> validators = field.getChildrenNamed("validator");
+                    Boolean valid = null;
+                    for (IXMLElement validator : validators) {
+                            Map<String, String> paramMap = new HashMap<String, String>();
+                            List<IXMLElement> parameters = validator.getChildrenNamed("param");
+                            for (IXMLElement param : parameters){
+                                paramMap.put(param.getAttribute("name"), param.getAttribute("value"));
+                            }
+                            FieldValidator fv = new FieldValidator(validator.getAttribute("class"), paramMap,
+                                    idata.getMessages().get(validator.getAttribute("id")), factory);
+                            Boolean result = fv.validate(client);
+                            if (!result) {
+                                emitError(idata.getMessages().get("data.validation.error.title"), fv.getMessage());
+                            }
+                            valid = (valid == null) ? result : result && valid;
+                    }
+
+                    if (valid) {
+                        value = values[0];
+                        validated = true;
+                    }
+                }
             }
+
             value = variables.replace(value);
 
             logger.fine("Setting variable " + variable + " to " + value);
