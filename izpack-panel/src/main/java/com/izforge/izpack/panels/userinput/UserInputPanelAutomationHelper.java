@@ -27,11 +27,16 @@ import com.izforge.izpack.api.adaptator.impl.XMLElementImpl;
 import com.izforge.izpack.api.data.InstallData;
 import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.exception.InstallerException;
+import com.izforge.izpack.core.container.DefaultContainer;
+import com.izforge.izpack.core.factory.DefaultObjectFactory;
+import com.izforge.izpack.core.resource.ResourceManager;
 import com.izforge.izpack.installer.automation.PanelAutomation;
 import com.izforge.izpack.installer.automation.PanelAutomationHelper;
-import com.izforge.izpack.panels.userinput.field.AbstractFieldView;
-import com.izforge.izpack.panels.userinput.field.FieldView;
+import com.izforge.izpack.panels.userinput.field.*;
 import com.izforge.izpack.panels.userinput.field.custom.CustomFieldType;
+import com.izforge.izpack.panels.userinput.gui.password.PasswordGroup;
+import com.izforge.izpack.panels.userinput.processorclient.ValuesProcessingClient;
+import com.izforge.izpack.util.helper.SpecHelper;
 
 import java.util.*;
 import java.util.logging.Logger;
@@ -60,9 +65,13 @@ public class UserInputPanelAutomationHelper extends PanelAutomationHelper implem
 
     private static final String AUTO_PROMPT_KEY = "UserInputPanelAutomationHelper.MissingValue.Prompt";
 
+    private static final String AUTO_PROMPT_KEY_VERIFY = "UserInputPanelAutomationHelper.MissingValue.Prompt.Verify";
+
     private Set<String> variables;
 
     private List<? extends AbstractFieldView> views;
+
+    private String RESOURCE = "userInputSpec.xml";
 
     /**
      * Default constructor, used during automated installation.

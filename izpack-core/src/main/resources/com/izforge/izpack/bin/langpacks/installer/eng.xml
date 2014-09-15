@@ -263,6 +263,7 @@ file we looked for -->
          txt="The file or directory you have chosen either does not exist or is not appropriate."/>
     <str id="UserInputPanel.search.wrongselection.caption" txt="Invalid Selection"/>
     <str id="UserInputPanelAutomationHelper.MissingValue.Prompt" txt="Enter a value for %s."/>
+    <str id="UserInputPanelAutomationHelper.MissingValue.Prompt.Verify" txt="Please verify the value for %s."/>
 
     <!-- UserPathPanel strings -->
     <str id="UserPathPanel.required" txt="The chosen directory should exist."/>
