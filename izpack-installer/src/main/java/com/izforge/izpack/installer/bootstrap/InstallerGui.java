@@ -31,7 +31,7 @@ import com.izforge.izpack.installer.gui.SplashScreen;
 import com.izforge.izpack.installer.language.LanguageDialog;
 
 import javax.swing.*;
-import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Gui-dedicated installer bootstrap
@@ -39,7 +39,7 @@ import java.util.HashMap;
 public class InstallerGui
 {
 
-    public static void run(final String mediaPath, final HashMap<String, String> argVariables) throws Exception
+    public static void run(final String mediaPath, final Map<String, String> argVariables) throws Exception
     {
         final InstallerContainer applicationComponent = new GUIInstallerContainer();
         final Container installerContainer = applicationComponent.getComponent(Container.class);

@@ -121,7 +121,7 @@ public class Installer
     private void start(String[] args)
     {
         logger.info("Commandline arguments: " + StringTool.stringArrayToSpaceSeparatedString(args));
-        HashMap<String,String> argVariables = new HashMap<String,String>();
+        Map<String,String> argVariables = new HashMap<String,String>();
         // OS X tweaks
         if (System.getProperty("mrj.version") != null)
         {
@@ -240,7 +240,7 @@ public class Installer
     }
 
     private void launchInstall(int type, int consoleAction, String path, String langCode,
-                               String mediaDir, String[] args, HashMap<String, String> argVariables) throws Exception
+                               String mediaDir, String[] args, Map<String, String> argVariables) throws Exception
     {
         // if headless, just use the console mode
         if (type == INSTALLER_GUI && GraphicsEnvironment.isHeadless())
@@ -273,7 +273,7 @@ public class Installer
      * @param mediaDir the multi-volume media directory. May be <tt>null</tt>
      * @throws Exception for any error
      */
-    private void launchAutomatedInstaller(String path, String mediaDir, String[] args, HashMap<String, String> argVariables) throws Exception
+    private void launchAutomatedInstaller(String path, String mediaDir, String[] args, Map<String, String> argVariables) throws Exception
     {
         InstallerContainer container = new ConsoleInstallerContainer();
         AutomatedInstaller automatedInstaller = container.getComponent(AutomatedInstaller.class);
@@ -290,7 +290,7 @@ public class Installer
      * @param langCode      the language code. May be <tt>null</tt>
      * @param mediaDir      the multi-volume media directory. May be <tt>null</tt>
      */
-    private void launchConsoleInstaller(int consoleAction, String path, String langCode, String mediaDir, String[] args, HashMap<String, String> argVariables)
+    private void launchConsoleInstaller(int consoleAction, String path, String langCode, String mediaDir, String[] args, Map<String, String> argVariables)
     {
         InstallerContainer container = new ConsoleInstallerContainer();
         if (langCode != null)
