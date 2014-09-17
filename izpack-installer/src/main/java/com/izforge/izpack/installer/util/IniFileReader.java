@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 
 public class IniFileReader {
 
-    private static Pattern SECTION_PATTERN = Pattern.compile("\\s*\\[(.*?)\\]");
+    private static Pattern SECTION_PATTERN = Pattern.compile("^\\s*\\[(.*?)\\]\\s*$");
 
     /**
      * Returns whether a the current line being read is a section heading.
