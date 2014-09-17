@@ -28,6 +28,7 @@ import com.izforge.izpack.installer.container.impl.CustomDataLoader;
 import com.izforge.izpack.installer.container.impl.InstallerContainer;
 import com.izforge.izpack.installer.gui.*;
 import com.izforge.izpack.installer.gui.SplashScreen;
+import com.izforge.izpack.installer.util.IniFileReader;
 import com.izforge.izpack.util.Debug;
 import com.izforge.izpack.util.StringTool;
 
@@ -194,22 +195,9 @@ public class Installer
                         String pwdFilePath = args_it.next().trim();
                         File pwdFile = new File(pwdFilePath);
                         if (pwdFile.exists()) {
-                            Properties props = new Properties();
-                            try {
-                                props.load(new FileInputStream(pwdFile));
-                            } catch (IOException ioe) {
-                                System.err.println("There was an error reading the variable file.");
-                                ioe.printStackTrace();
-                            } catch (IllegalArgumentException iae) {
-                                System.err.println("The variable file seems to be malformed.");
-                                iae.printStackTrace();
-                            }
-                            if (!props.stringPropertyNames().isEmpty()) {
-                                for (String key : props.stringPropertyNames()) {
-                                    argVariables.put(key, props.getProperty(key));
-                                }
-                            } else {
-                                System.err.println("The variable file was empty.");
+                            argVariables = IniFileReader.readIniFile(pwdFile);
+                            if (argVariables.isEmpty()){
+                                System.err.println("The given file was empty");
                             }
                         } else {
                             System.err.println("- ERROR -");
